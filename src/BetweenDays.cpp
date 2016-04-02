@@ -108,14 +108,15 @@ int check_month(struct node *date1head, struct node *date2head){
 	}
 	index = 0;
 	ptr = date2head;
-	ptr = set_index_year(date2head, &index);
-	while (index <= 4){
+	ptr = set_index_month(date2head, &index);
+	while (index < 4){
 		mon2 = mon2 * 10 + ptr -> data;
 		ptr = ptr->next;
 		index++;
 	}
 	if (mon1 < 0 || mon1 > 12 || mon2 < 0 || mon2 > 12)
 		return -1;
+	printf("mon1 %d mon2 %d\n", mon1, mon2);
 	if (mon1 < mon2)
 		return 1;
 	else if (mon1 > mon2)
@@ -131,14 +132,16 @@ int check_date(struct node *date1head, struct node *date2head){
 	while (index < 2){
 		date1 = date1 * 10 + ptr ->data;
 		ptr = ptr->next;
+		index++;
 	}
 	index = 0;
 	ptr = date2head;
 	while (index < 2){
 		date2 = date2 * 10 + ptr->data;
 		ptr = ptr->next;
+		index++;
 	}
-
+	printf("date1 %d date2 %d\n", date1, date2);
 	if (date1 < date2)
 		return date2 - date1 - 1;
 	else if (date1 > date2)
@@ -148,16 +151,20 @@ int check_date(struct node *date1head, struct node *date2head){
 	return -1;
 }
 int between_days(struct node *date1head, struct node *date2head){
+	printf("im in main function\n");
 	if (date1head == NULL || date2head == NULL)
 	return -1;
 	int year = check_year(date1head, date2head);
 	if (year == 0)//year1 > year
 	{
+		printf("im in if\n");
 		int mon = check_month(date1head, date2head);
+		printf("mon %d\n", mon);
 		if (mon == -1)
 			return -1;
 		if (mon == 0){
 			int date = check_date(date1head, date2head);
+			printf("im here\n");
 			return date;
 		}
 	}
