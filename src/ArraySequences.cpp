@@ -30,8 +30,54 @@ Difficulty : Medium
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-
+void find_sequence1(int *arr, int len, int *final_array, int index, int startindex){
+	int common_diff = 0;
+	for (int i = startindex; i < len; i++){
+		if (arr[i + 1] - arr[i] == arr[i + 2] - arr[i + 1])
+		{
+			final_array[index++] = i;
+			common_diff = arr[i];
+			i = i + 2;
+			while (1){
+				if (arr[i + 1] - arr[i] == common_diff){
+					i++;
+				}
+				else break;
+			}
+			final_array[index++] = i;
+			break;
+		}
+	}
+}
+void find_sequence2(int *arr, int len, int *final_array, int index, int startindex){
+	int common_ratio = 0;
+	for (int i = startindex; i < len; i++){
+		if (arr[i + 1] / arr[i] == arr[i + 2] / arr[i + 1])
+		{
+			final_array[index++] = i;
+			common_ratio = arr[i];
+			i = i + 2;
+			while (1){
+				if (arr[i + 1] / arr[i] == common_ratio){
+					i++;
+				}
+				else break;
+			}
+			final_array[index++] = i;
+			break;
+		}
+	}
+}
 int * find_sequences(int *arr, int len){
+	if (arr == NULL)
+		return NULL;
 	//Return final array which has 6indexes [AP1_S,AP1_E,AP2_S,AP2_E,GP1_S,GP2_E]
-	return NULL;
+	int *final_array = (int*)malloc(sizeof(int*) * 6);
+    find_sequence1(arr, len, final_array, 0, 0);//1st arthematic sequence
+	find_sequence1(arr, len, final_array, 2, final_array[1]);//second arthematic sequence
+	find_sequence2(arr, len, final_array, 4, final_array[3]);//geometric progression
+	printf("%d %d\n", final_array[0], final_array[1]);
+	printf("%d %d\n", final_array[2], final_array[3]);
+	printf("%d %d\n", final_array[4], final_array[5]);
+	return final_array;
 }
